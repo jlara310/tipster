@@ -3,7 +3,7 @@
 	function form_errors($errors=array()) {
 		$output = "";
 		if (!empty($errors)) {
-		  $output .= "<div class=\"error\">";
+		  $output .= "<div id=\"tipster_errors\">";
 		  $output .= "Please fix the following errors:";
 		  $output .= "<ul>";
 		  foreach ($errors as $key => $error) {
@@ -20,8 +20,9 @@
 	$errors = array();
 
 	function fieldname_as_text($fieldname){
-		$fieldname = ucfirst($fieldname);
-		return $fieldname;
+	$fieldname = str_replace("_", " ", $fieldname);
+	$fieldname = ucfirst($fieldname);
+	return $fieldname;
 	}
 
 	// * presence
@@ -47,10 +48,23 @@
 		global $errors;
 
 		if (has_presence($_POST[$subtotal_field])){
-			$subtotal_value = $_POST[$subtotal_field];
+			$custom_tip = trim($_POST[$subtotal_field]);
 
-			if ( !($subtotal_value > 0) || !is_numeric($subtotal_value) ) {
+			if ( !($custom_tip > 0) || !is_numeric($custom_tip) ) {
 				$errors[$subtotal_field] = fieldname_as_text($subtotal_field) . " must be a number greater than 0.";
+			}
+		}
+	}
+
+	function validate_custom_tip($custom_tip_field){
+		//If percentage is custom, validate custom tip is a number greater than 0
+		global $errors;
+
+		if ($_POST["percentage"] == "custom" ){
+			$custom_tip = trim($_POST[$custom_tip_field]);
+
+			if ( !($custom_tip > 0) || !is_numeric($custom_tip) ) {
+				$errors[$custom_tip_field] = fieldname_as_text($custom_tip_field) . " must be a number greater than 0.";
 			}
 		}
 	}

@@ -6,6 +6,8 @@
 		$required_fields = array("subtotal", "percentage");
 		validate_presences($required_fields);
 		validate_subtotal("subtotal");
+		//Validate custom tip
+		validate_custom_tip("custom_tip");
 
 		//If no errors, process form
 		if (empty($errors)) {
@@ -41,13 +43,7 @@
 			<div id="tipster_form">
 				<?php
 					if(!empty($errors)){
-						echo "<div id=\"tipster_errors\">";
-						echo "<ul>";
-						foreach ($errors as $error_message) {
-							echo "<li>{$error_message}</li>";
-						}
-						echo "</ul>";
-						echo "</div>";
+						echo form_errors($errors);
 					}
 				?>
 				<form  action="tipster.php" method="post">
@@ -67,17 +63,21 @@
 					$percentages = array("10", "15", "20");
 
 					for ($i = 0; $i < count($percentages); $i++) {
-						$percentate_value = $percentages[$i];
+						$percentage_value = $percentages[$i];
 
 						echo "<input type=\"radio\" name=\"percentage\" ";
 						//If POST, set submitted value as default, else set first option as default
 						if (isset($_POST["percentage"])) {
-							if(($_POST["percentage"] == $percentate_value)) { echo "checked " ; }
+							if(($_POST["percentage"] == $percentage_value)) { echo "checked " ; }
 						} elseif ($i == 0){ echo "checked "; };
 
-						echo "value=\"{$percentate_value}\">{$percentate_value}%</input>";
+						echo "value=\"{$percentage_value}\">{$percentage_value}%</input>";
 					}
+					//Add custom tip option
 					?>
+					<br />
+					<input type="radio" name="percentage" value="custom" <?php if (isset($_POST["percentage"]) && ($_POST["percentage"] == "custom")) { echo "checked"; } ?> >Custom:</input>
+					<input type="text" size="4" name="custom_tip" value="<?php if (isset($_POST["percentage"]) && ($_POST["percentage"] == "custom")) { echo htmlentities($_POST["custom_tip"]); } ?>">%
 				</p>
 				<p><input type="submit" name="submit" value="Calculate" /></p>
 				</form>
