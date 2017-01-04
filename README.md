@@ -24,7 +24,7 @@ The following **additional** features are implemented:
 
 * [X] Custom error checking functions
 * [X] Descriptive error messages
-* [X} Currency thousands separator
+* [X] Currency thousands separator
 
 ## Video Walkthrough
 
