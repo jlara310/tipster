@@ -14,7 +14,13 @@
 			$tipster_result = array();
 
 			$subtotal = (float) $_POST["subtotal"];
-			$percentage = (float) $_POST["percentage"];
+
+			//check for custom tip
+			if($_POST["percentage"] == "custom"){
+				$percentage = (float) $_POST["custom_tip"];
+			} else {
+				$percentage = (float) $_POST["percentage"];
+			}
 
 			$tip = $subtotal * $percentage / 100;
 			$tip = number_format(round($tip, 2), 2);
@@ -57,7 +63,7 @@
 						}
 					?>
 				</p>
-				<p>Tip Percentage:<br />
+				<p><span <?php if(isset($errors["percentage"])){ echo "class=\"tipster_field_error\""; } ?>>Tip Percentage:</span><br />
 					<?php
 					//Loop through an array to output percentage input
 					$percentages = array("10", "15", "20");
@@ -76,7 +82,8 @@
 					//Add custom tip option
 					?>
 					<br />
-					<input type="radio" name="percentage" value="custom" <?php if (isset($_POST["percentage"]) && ($_POST["percentage"] == "custom")) { echo "checked"; } ?> >Custom:</input>
+					<input type="radio" name="percentage" value="custom" <?php if (isset($_POST["percentage"]) && ($_POST["percentage"] == "custom")) { echo "checked"; } ?> ><span <?php if(isset($errors["custom_tip"])){ echo "class=\"tipster_field_error\""; } ?>>Custom:</span>
+					</input>
 					<input type="text" size="4" name="custom_tip" value="<?php if (isset($_POST["percentage"]) && ($_POST["percentage"] == "custom")) { echo htmlentities($_POST["custom_tip"]); } ?>">%
 				</p>
 				<p><input type="submit" name="submit" value="Calculate" /></p>

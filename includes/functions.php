@@ -57,14 +57,14 @@
 	}
 
 	function validate_custom_tip($custom_tip_field){
-		//If percentage is custom, validate custom tip is a number greater than 0
+		//If percentage is custom, validate custom tip is a number
 		global $errors;
 
 		if ($_POST["percentage"] == "custom" ){
 			$custom_tip = trim($_POST[$custom_tip_field]);
 
-			if ( !($custom_tip > 0) || !is_numeric($custom_tip) ) {
-				$errors[$custom_tip_field] = fieldname_as_text($custom_tip_field) . " must be a number greater than 0.";
+			if ( !($custom_tip >= 0) || !is_numeric($custom_tip) ) {
+				$errors[$custom_tip_field] = fieldname_as_text($custom_tip_field) . " must be a positive number.";
 			}
 		}
 	}
