@@ -48,9 +48,9 @@
 		global $errors;
 
 		if (has_presence($_POST[$subtotal_field])){
-			$custom_tip = trim($_POST[$subtotal_field]);
+			$subtotal= trim($_POST[$subtotal_field]);
 
-			if ( !($custom_tip > 0) || !is_numeric($custom_tip) ) {
+			if ( !($subtotal > 0) || !is_numeric($subtotal) ) {
 				$errors[$subtotal_field] = fieldname_as_text($subtotal_field) . " must be a number greater than 0.";
 			}
 		}
@@ -65,6 +65,23 @@
 
 			if ( !($custom_tip >= 0) || !is_numeric($custom_tip) ) {
 				$errors[$custom_tip_field] = fieldname_as_text($custom_tip_field) . " must be a positive number.";
+			}
+		}
+	}
+
+	function validate_split($split_field){
+		//Validate split value
+		global $errors;
+
+		if (has_presence($_POST[$split_field])){
+
+			//Cast as integer
+			$split = trim($_POST[$split_field]);
+			$split_int = (int) trim($_POST[$split_field]);
+
+			//Check that split is greater than 0 and an integer
+			if ( !($split > 0) || ($split != $split_int  ) ) {
+				$errors[$split_field] = fieldname_as_text($split_field) . " must be an integer greater than 0.";
 			}
 		}
 	}

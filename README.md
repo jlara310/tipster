@@ -4,7 +4,7 @@ Tipster is a tip calculator PHP page.
 
 Submitted by: Juan Lara
 
-Time spent: 10 hours spent in total
+Time spent: 12 hours spent in total
 
 ## User Stories
 
@@ -17,12 +17,13 @@ The following **required** functionality is complete:
 * [X] Submitted form values are retained when errors or results are shown.
 
 The following **optional** features are implemented:
-* [ ] Add support for custom tip percentage
-* [ ] Add support for splitting the tip and total
+* [X] Add support for custom tip percentage
+* [X] Add support for splitting the tip and total
 
 The following **additional** features are implemented:
 
 * [X] Custom error checking functions
+* [X] Validate split value is a positive integer
 * [X] Descriptive error messages
 * [X] Currency thousands separator
 
@@ -30,7 +31,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/DvCwHOO.gif' title='Tipster Video Walkthrough' width='' alt='Tipster Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 

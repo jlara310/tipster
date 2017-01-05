@@ -1,13 +1,16 @@
 <?php require_once("/includes/functions.php"); ?>
 
 <?php
+	//Attempt to process form if POST
 	if (isset($_POST["submit"])){
 		//start form validation. Errors stored in $error global variable.
-		$required_fields = array("subtotal", "percentage");
+		$required_fields = array("subtotal", "percentage", "split");
 		validate_presences($required_fields);
 		validate_subtotal("subtotal");
 		//Validate custom tip
 		validate_custom_tip("custom_tip");
+		//Validate Split
+		validate_split("split");
 
 		//If no errors, process form
 		if (empty($errors)) {
@@ -23,13 +26,27 @@
 			}
 
 			$tip = $subtotal * $percentage / 100;
-			$tip = number_format(round($tip, 2), 2);
+			$tip_formatted = number_format(round($tip, 2), 2);
 
-			$tipster_result["Tip"] = "$".htmlentities($tip);
+			$tipster_result["Tip"] = "$".htmlentities($tip_formatted);
 
 			$total = $subtotal + $tip;
-			$total = number_format(round($total, 2), 2);
-			$tipster_result["Total"] = "$".htmlentities($total);
+			$total_formatted = number_format(round($total, 2), 2);
+			$tipster_result["Total"] = "$".htmlentities($total_formatted);
+
+			//Additonal results if split is more than 1
+			if($_POST["split"] > 1){
+				$split = (int) $_POST["split"];
+
+				$tip_each = $tip/$split;
+				$tip_each_formatted = number_format(round($tip_each, 2), 2);
+				$tipster_result["Tip each"] = "$".htmlentities($tip_each_formatted);
+
+				$total_each = $total/$split;
+				$total_each_formatted = number_format(round($total_each, 2), 2);
+				$tipster_result["Total each"] = "$".htmlentities($total_each_formatted);
+
+			}
 
 		}
 	}
@@ -86,6 +103,7 @@
 					</input>
 					<input type="text" size="4" name="custom_tip" value="<?php if (isset($_POST["percentage"]) && ($_POST["percentage"] == "custom")) { echo htmlentities($_POST["custom_tip"]); } ?>">%
 				</p>
+				<p><span <?php if(isset($errors["split"])) { echo "class=\"tipster_field_error\""; } ?>>Split:</span><input type="text" size="4" name="split" value="<?php if (isset($_POST["split"])) { echo htmlentities($_POST["split"]);} else { echo "1"; } ?>"> person(s)</p>
 				<p><input type="submit" name="submit" value="Calculate" /></p>
 				</form>
 			</div>
